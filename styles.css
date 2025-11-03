@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 100vh;
+}
+
+.top-row, .second-row, .third-row, .fourth-row, .bottom-row {
+    display: flex;
+    gap: 5px;
+}
+
+button {
+    width: 100px;
+    height: 100px;
+    font-weight: bolder;
+    font-size: 48px;
+}
+input {
+    width: 405px;
+    height: 100px;
+    font-weight: bold;
+    font-size: 48px;
+    text-align: center;
+}
