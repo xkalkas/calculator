@@ -58,7 +58,6 @@ document.addEventListener("click", event => {
             currentNum = "";
         }   
     }
-
     if (btnClicked.classList.contains('number')){
         if(equals){
             currentNum = btnClicked.textContent;
@@ -67,6 +66,12 @@ document.addEventListener("click", event => {
         }else{
             currentNum = currentNum + btnClicked.textContent;
             input.value = currentNum;
+        }
+    }
+    if (btnClicked.classList.contains('point')){
+        if(!currentNum.includes('.')) {
+            currentNum = currentNum + '.'
+            input.value = currentNum;    
         }
     }
     if (btnClicked.classList.contains('equals')){
@@ -91,52 +96,57 @@ document.addEventListener("click", event => {
     }
 });
 
+function isOperator(key){
+    if (key === '*' || key === '/' || key === '-' || key === '+') return true
+}
+function isNumber(key){
+    if ('0123456789'.includes(key)) return true
+}
 
+document.addEventListener('keydown', event => {
+    if (isOperator(event.key)){
+        if(stringOperators){  
+            result = operate(previousNum, currentNum, operator)
+            previousNum = result;
+            currentNum = "";
+            input.value = result;
+        }
+        operator = event.key;
+        if(!stringOperators){
+            stringOperators = true;
+            previousNum = +currentNum;
+            currentNum = "";
+        }   
+    }
 
-// document.addEventListener('keydown', event => {
-//     if (event.key){
-//         if(stringOperators){  
-//             result = operate(previousNum, currentNum, operator)
-//             previousNum = result;
-//             currentNum = "";
-//             input.value = result;
-//         }
-//         operator = btnClicked.textContent;
-//         if(!stringOperators){
-//             stringOperators = true;
-//             previousNum = +currentNum;
-//             currentNum = "";
-//         }   
-//     }
-
-//     if (btnClicked.classList.contains('number')){
-//         if(equals){
-//             currentNum = btnClicked.textContent;
-//             equals = false;
-//             input.value = currentNum;
-//         }else{
-//             currentNum = currentNum + btnClicked.textContent;
-//             input.value = currentNum;
-//         }
-//     }
-//     if (btnClicked.classList.contains('equals')){
-//         result = operate(previousNum, currentNum, operator)
-//         equals = true;
-//         currentNum = result;
-//         stringOperators = false;
-//         input.value = result;
-//     }
-//     if (btnClicked.classList.contains('clear')){
-//         operator = ""
-//         currentNum = "";
-//         previousNum = 0;
-//         result = 0
-//         equals = false;
-//         stringOperators = false;
-//         input.value = "";
-//     }
-//     if (btnClicked.classList.contains('backspace')){
-//         input.value = "";        
-//         currentNum = "";
-//     }
-// });
+    if (isNumber(event.key)){
+        if(equals){
+            currentNum = event.key;
+            equals = false;
+            input.value = currentNum;
+        }else{
+            currentNum = currentNum + event.key;
+            input.value = currentNum;
+        }
+    }
+    if (event.key === '='){
+        result = operate(previousNum, currentNum, operator)
+        equals = true;
+        currentNum = result;
+        stringOperators = false;
+        input.value = result;
+    }
+    if (event.key === 'Escape'){
+        operator = ""
+        currentNum = "";
+        previousNum = 0;
+        result = 0
+        equals = false;
+        stringOperators = false;
+        input.value = "";
+    }
+    if (event.key === 'Backspace'){
+        input.value = "";        
+        currentNum = "";
+    }
+});
